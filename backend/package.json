@@ -2,9 +2,10 @@
   "name": "open-graph-visualizer-backend",
   "version": "1.0.0",
   "scripts": {
-    "start": "tsx ./file.ts",
+    "start": "node dist/server.js",
     "dev": "tsx watch --include './src/**/*' ./src/server.ts",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "build": "tsc"
   },
   "type": "module",
   "keywords": [],
