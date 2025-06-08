@@ -1,0 +1,13 @@
+auth and DB
+user saved website links
+editable metadata => metadata code snipped generator
+metadata code snippet supported for React, NextJS, PHP, etc
+Support More platforms link previews
+responsive link preview window => desktop, mobile, tablet previews
+
+Web scraper for SEO optimization
+Other SEO improvement tools
+
+TRPC integration
+MonoRepo folder structure
+React Jest for unit testing
