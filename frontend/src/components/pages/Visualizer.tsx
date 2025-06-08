@@ -2,6 +2,7 @@ import { SocialMetadata } from "@/components/Visualizer/metadataType";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import Loader from "@/components/core/Loader";
 import useFetch from "../Visualizer/useFetch";
 import { useEffect, useState } from "react";
 import {
@@ -53,80 +54,96 @@ function Visualizer() {
 
   return (
     <div className="w-full h-full dark:bg-black bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] p-2">
-      <div className="url-card flex gap-4 rounded-lg bg-background border-2 p-2">
-        <div className="grid place-items-center p-2">
-          <LinkIcon />
+      {reqStatus === "loading" ? (
+        <div className="w-full h-full flex justify-center items-center">
+          <Loader />
         </div>
-        <Input
-          placeholder="Enter your website URL"
-          value={url}
-          onChange={handleUrlChange}
-        />
-        <Button
-          className="text-white bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-200 dark:text-black"
-          onClick={handleSubmit}
-          disabled={!url.trim() || reqStatus === "loading"}
-        >
-          Visualize
-        </Button>
-      </div>
-      <div className="flex flex-col md:flex-row gap-2 p-2">
-        <div className="metadata-form flex flex-col gap-4 p-6 border-2 bg-background md:w-1/2 rounded-lg">
-          <p className="text-xl">Open Graph Metadata</p>
-          <div className="flex flex-col gap-2">
-            {reqStatus === "loading" ? (
-              <p>Loading...</p>
-            ) : reqStatus === "success" ? (
-              <>
-                <div className="grid grid-cols-2 grid-flow-row gap-2">
-                  <label htmlFor="title">Title</label>
-                  <Input id="title" value={metadata?.title} readOnly />
-                  <label htmlFor="description">Description</label>
-                  <Input
-                    id="description"
-                    value={metadata?.description}
-                    readOnly
-                  />
-                  <label htmlFor="image">Image</label>
-                  <Input id="image" value={metadata?.image} readOnly />
-                  <label htmlFor="siteName">Site Name</label>
-                  <Input id="siteName" value={metadata?.siteName} readOnly />
-                  <label htmlFor="type">Type</label>
-                  <Input id="type" value={metadata?.type} readOnly />
-                </div>
-                <p className="text-lg">Twitter</p>
-                <div className="twitter grid grid-cols-2 grid-flow-row gap-2">
-                  <label htmlFor="card">Card</label>
-                  <Input id="card" value={metadata?.twitter?.card} readOnly />
-                  <label htmlFor="site">Site</label>
-                  <Input id="site" value={metadata?.twitter?.site} readOnly />
-                  <label htmlFor="creator">Creator</label>
-                  <Input
-                    id="creator"
-                    value={metadata?.twitter?.creator}
-                    readOnly
-                  />
-                </div>
-              </>
-            ) : reqStatus === "error" ? (
-              <p>Error: {error}</p>
-            ) : reqStatus === "idle" ? (
-              <p>Fetching metadata...</p>
-            ) : null}
+      ) : (
+        <>
+          <div className="url-card flex gap-4 rounded-lg bg-background border-2 p-2">
+            <div className="grid place-items-center p-2">
+              <LinkIcon />
+            </div>
+            <Input
+              placeholder="Enter your website URL"
+              value={url}
+              onChange={handleUrlChange}
+            />
+            <Button
+              className="text-white bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-200 dark:text-black"
+              onClick={handleSubmit}
+              disabled={!url.trim()}
+            >
+              Visualize
+            </Button>
           </div>
-        </div>
-        <div className="open-graph-previews md:w-1/2">
-          {metadata ? (
-            <SocialPreview metadata={metadata} />
-          ) : reqStatus === "loading" ? (
-            <p>Loading...</p>
-          ) : reqStatus === "error" ? (
-            <p>Error: {error}</p>
-          ) : reqStatus === "idle" ? (
-            <p>Fetching metadata...</p>
-          ) : null}
-        </div>
-      </div>
+          <div className="flex flex-col md:flex-row gap-2 p-2">
+            <div className="metadata-form flex flex-col gap-4 p-6 border-2 bg-background md:w-1/2 rounded-lg">
+              <p className="text-xl">Open Graph Metadata</p>
+              <div className="flex flex-col gap-2">
+                {reqStatus === "success" ? (
+                  <>
+                    <div className="grid grid-cols-2 grid-flow-row gap-2">
+                      <label htmlFor="title">Title</label>
+                      <Input id="title" value={metadata?.title} readOnly />
+                      <label htmlFor="description">Description</label>
+                      <Input
+                        id="description"
+                        value={metadata?.description}
+                        readOnly
+                      />
+                      <label htmlFor="image">Image</label>
+                      <Input id="image" value={metadata?.image} readOnly />
+                      <label htmlFor="siteName">Site Name</label>
+                      <Input
+                        id="siteName"
+                        value={metadata?.siteName}
+                        readOnly
+                      />
+                      <label htmlFor="type">Type</label>
+                      <Input id="type" value={metadata?.type} readOnly />
+                    </div>
+                    <p className="text-lg">Twitter</p>
+                    <div className="twitter grid grid-cols-2 grid-flow-row gap-2">
+                      <label htmlFor="card">Card</label>
+                      <Input
+                        id="card"
+                        value={metadata?.twitter?.card}
+                        readOnly
+                      />
+                      <label htmlFor="site">Site</label>
+                      <Input
+                        id="site"
+                        value={metadata?.twitter?.site}
+                        readOnly
+                      />
+                      <label htmlFor="creator">Creator</label>
+                      <Input
+                        id="creator"
+                        value={metadata?.twitter?.creator}
+                        readOnly
+                      />
+                    </div>
+                  </>
+                ) : reqStatus === "error" ? (
+                  <p>Error: {error}</p>
+                ) : reqStatus === "idle" ? (
+                  <p>Fetching metadata...</p>
+                ) : null}
+              </div>
+            </div>
+            <div className="open-graph-previews md:w-1/2">
+              {metadata ? (
+                <SocialPreview metadata={metadata} />
+              ) : reqStatus === "error" ? (
+                <p>Error: {error}</p>
+              ) : reqStatus === "idle" ? (
+                <p>Fetching metadata...</p>
+              ) : null}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
