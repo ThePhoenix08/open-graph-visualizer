@@ -1,9 +1,9 @@
 import { SocialMetadata } from "@/components/Visualizer/metadataType";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import useFetch from "../Visualizer/useFetch";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Link as LinkIcon,
   Share2,
@@ -28,13 +28,27 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
 import { Card, CardContent } from "../ui/card";
 
 function Visualizer() {
-  const { url: urlParam } = useParams();
-  const [url, setUrl] = useState<string>(urlParam as string);
-  const { metadata, reqStatus, error } = useFetch(url as string);
+  const [searchParams] = useSearchParams();
+  const urlParam = searchParams.get("target");
+  const [url, setUrl] = useState<string>(urlParam || "");
+  const { metadata, reqStatus, error } = useFetch(url);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (urlParam) {
+      setUrl(urlParam);
+    }
+  }, [urlParam]);
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    if (url.trim()) {
+      const encodedUrl = encodeURIComponent(url);
+      navigate(`/url?target=${encodedUrl}`);
+    }
   };
 
   return (
@@ -49,9 +63,9 @@ function Visualizer() {
           onChange={handleUrlChange}
         />
         <Button
-          onClick={() => {
-            navigate(`/url/${url}`);
-          }}
+          className="text-white bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-200 dark:text-black"
+          onClick={handleSubmit}
+          disabled={!url.trim() || reqStatus === "loading"}
         >
           Visualize
         </Button>

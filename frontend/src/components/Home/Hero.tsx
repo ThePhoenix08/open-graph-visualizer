@@ -9,8 +9,8 @@ const Hero = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(url);
-    const urlToPath = url.replace(/\//g, "");
-    navigate(`/url/${urlToPath}`);
+    const encodedUrl = encodeURIComponent(url);
+    navigate(`/url?target=${encodedUrl}`);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
