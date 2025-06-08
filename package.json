@@ -1,11 +1,43 @@
 {
+  "name": "open-graph-visualizer",
+  "version": "1.0.0",
+  "description": "A tool to preview how your website's link previews will appear across different social media platforms",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "keywords": [
+    "open-graph",
+    "og-tags",
+    "social-media",
+    "seo",
+    "preview",
+    "metadata",
+    "twitter-cards",
+    "facebook",
+    "linkedin",
+    "react",
+    "typescript",
+    "express",
+    "tailwind"
+  ],
+  "author": "Vighnesh Brahme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ThePhoenix08/open-graph-visualizer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ThePhoenix08/open-graph-visualizer/issues"
+  },
+  "homepage": "https://github.com/ThePhoenix08/open-graph-visualizer#readme",
   "scripts": {
     "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && npm run dev\"",
     "start": "concurrently \"cd frontend && npm run start\" \"cd backend && npm run start\"",
     "build": "concurrently \"cd frontend && npm run build\" \"cd backend && npm run build\"",
     "install": "concurrently \"cd frontend && npm install\" \"cd backend && npm install\""
   },
-  "dependencies": {
-    "concurrently": "^9.1.0"
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }

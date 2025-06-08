@@ -1,6 +1,7 @@
 {
-  "name": "open-graph-visualizer-backend",
+  "name": "@open-graph-visualizer/backend",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "start": "node dist/server.js",
     "dev": "tsx watch --include './src/**/*' ./src/server.ts",
